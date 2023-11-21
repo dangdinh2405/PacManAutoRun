@@ -1,6 +1,8 @@
 from collections import deque
 import copy
 import convert
+import AStar
+
 
 class BFS:
     converter = convert.MatrixConverter()
@@ -31,8 +33,24 @@ class BFS:
                 queue.extend(neighbor for neighbor in self.get_neighbors(vertex) if neighbor not in self.visited)
         return self.path
 
+    def optimal(self):
+        bfs = BFS()
+        path = bfs.bfs((2, 2))
+        i = 0
+        long = len(path)
+        while i < long - 1:
+            if not (abs(path[i][0] - path[i + 1][0]) + abs(path[i][1] - path[i + 1][1]) == 1):
+                solver = AStar.AStar(path[i], path[i + 1])
+                path1 = solver.astar()
+                path1.pop(0)  # xóa phần tử đầu tiên
+                path1.pop(-1)  # xóa phần tử cuối cùng
+                path = path[:i + 1] + path1 + path[i + 1:]
+                i = i - 1
+                long = len(path)
+            i = i + 1
+        return path
 
-# # Usage:
-bfs = BFS()
-path = bfs.bfs((2, 2))  # Start point
-print(path)
+
+# bfs = BFS()
+# path = bfs.optimal()
+# print(path)

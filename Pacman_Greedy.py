@@ -2,7 +2,7 @@ import copy
 from matrix import matrix
 import pygame
 import math
-import BFS
+import Greedy
 
 
 class PacmanGame:
@@ -183,18 +183,13 @@ class PacmanGame:
             play_y += self.player_speed
         return play_x, play_y
 
-    bfs = BFS.BFS()
-    path = bfs.optimal()
+    greedy = Greedy.Greedy()
+    path = greedy.optimal()
 
     def move_pacman(self, player_x, player_y, x, y):
         player_x = player_x + 23
         player_y = player_y + 24
-        # start = (x, y)
-        # goal = (30, 2)
-        #
-        # solver = AStar.AStar(start, goal)
-        # path = solver.astar()
-        # print(path)
+
         new_x, new_y = player_x, player_y
         if self.path:
             if self.path[0] == self.path[-1]:
@@ -214,7 +209,7 @@ class PacmanGame:
                 elif dx1 - dx == 1 and dy1 - dy == 0:
                     new_y = player_y + 1 * self.player_speed
                     self.direction = 3
-                if new_x == self.bfs.cd_array[dx1][dy1][0] and new_y == self.bfs.cd_array[dx1][dy1][1]:
+                if new_x == self.greedy.cd_array[dx1][dy1][0] and new_y == self.greedy.cd_array[dx1][dy1][1]:
                     x, y = dx1, dy1
                     self.path.pop(0)
         new_x = new_x - 23
