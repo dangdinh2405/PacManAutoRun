@@ -51,6 +51,6 @@ class BFS:
         return path
 
 
-# bfs = BFS()
-# path = bfs.optimal()
-# print(path)
+bfs = BFS()
+path = bfs.optimal()
+print(path)
