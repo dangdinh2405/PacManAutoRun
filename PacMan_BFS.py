@@ -234,6 +234,9 @@ class PacmanGame:
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p:
                     self.toggle_pause()
+                elif event.key == pygame.K_q:
+                    pygame.quit()
+                    quit()
 
     def run_game(self):
         run = True
