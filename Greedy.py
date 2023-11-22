@@ -12,6 +12,7 @@ class Greedy:
     def __init__(self):
         self.visited = set()
         self.path = []
+        self.steps = 0
 
     def heuristic(self, current, _):
         return abs(current[0] - self.matrix.shape[0]//2) + abs(current[1] - self.matrix.shape[1]//2)
@@ -35,30 +36,32 @@ class Greedy:
             if self.matrix[vertex[0]][vertex[1]] == 0 and vertex not in self.visited:
                 self.path.append(vertex)
                 self.visited.add(vertex)
+                self.steps += 1
 
                 neighbors = self.get_neighbors(vertex)
                 for neighbor in neighbors:
                     if self.matrix[neighbor[0]][neighbor[1]] == 0 and neighbor not in self.visited:
                         priority_queue.append((self.heuristic(neighbor, None), neighbor))
 
-        return self.path
+        return self.path,self.steps
 
-    def optimal(self):
+    def optimal(self, location):
         greedy = Greedy()
-        path = greedy.greedy((2, 2))
+        path, steps = greedy.greedy(location)
         i = 0
         long = len(path)
         while i < long - 1:
             if not (abs(path[i][0] - path[i + 1][0]) + abs(path[i][1] - path[i + 1][1]) == 1):
                 solver = AStar.AStar(path[i], path[i + 1])
                 path1 = solver.astar()
+
                 path1.pop(0)
                 path1.pop(-1)
                 path = path[:i + 1] + path1 + path[i + 1:]
                 i = i - 1
                 long = len(path)
             i = i + 1
-        return path
+        return path, steps
 
 # Sử dụng ví dụ:
 # greedy = Greedy()

@@ -1,4 +1,6 @@
 import copy
+
+import AStar
 from matrix import matrix
 import pygame
 import math
@@ -183,25 +185,22 @@ class PacmanGame:
             play_y += self.player_speed
         return play_x, play_y
 
-    dfs = DFS.DFS()
-    path = dfs.optimal()
-
     def move_pacman(self, player_x, player_y, x, y):
         player_x = player_x + 23
         player_y = player_y + 24
-        # start = (x, y)
-        # goal = (30, 2)
-        #
-        # solver = AStar.AStar(start, goal)
-        # path = solver.astar()
-        # print(path)
+        start = (x, y)
+        goal = (30, 2)
+
+        solver = AStar.AStar(start, goal)
+        path = solver.astar()
+        print(path)
         new_x, new_y = player_x, player_y
-        if self.path:
-            if self.path[0] == self.path[-1]:
+        if path:
+            if path[0] == path[-1]:
                 new_x, new_y = player_x, player_y
             else:
-                dx, dy = self.path[0]
-                dx1, dy1 = self.path[1]
+                dx, dy = path[0]
+                dx1, dy1 = path[1]
                 if dy1 - dy == 1 and dx1 - dx == 0:
                     new_x = player_x + 1 * self.player_speed
                     self.direction = 0
@@ -214,9 +213,9 @@ class PacmanGame:
                 elif dx1 - dx == 1 and dy1 - dy == 0:
                     new_y = player_y + 1 * self.player_speed
                     self.direction = 3
-                if new_x == self.dfs.cd_array[dx1][dy1][0] and new_y == self.dfs.cd_array[dx1][dy1][1]:
+                if new_x == solver.cd_array[dx1][dy1][0] and new_y == solver.cd_array[dx1][dy1][1]:
                     x, y = dx1, dy1
-                    self.path.pop(0)
+                    path.pop(0)
         new_x = new_x - 23
         new_y = new_y - 24
         return new_x, new_y, x, y, self.direction

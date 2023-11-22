@@ -3,16 +3,20 @@ from matrix import matrix
 import pygame
 import math
 import BFS
+import Random
 
 
 class PacmanGame:
+    matrix_handler = Random.MatrixHandler()
+    random_coordinate = matrix_handler.random_zero_coordinate()
     def __init__(self):
         pygame.init()
+        self.paused = False
         self.WIDTH = 900
         self.HEIGHT = 950
         self.screen = pygame.display.set_mode([self.WIDTH, self.HEIGHT])
         self.timer = pygame.time.Clock()
-        self.fps = 60
+        self.fps = 180
         self.font = pygame.font.Font('freesansbold.ttf', 20)
         self.level = copy.deepcopy(matrix)
         self.color = 'blue'
@@ -22,10 +26,13 @@ class PacmanGame:
             self.player_images.append(pygame.transform.scale(pygame.image.load(f'pacman_image/{i}.png'), (45, 45)))
         self.icon = pygame.image.load("pacman_image/1.png")
         pygame.display.set_icon(self.icon)
-        self.player_x = 75 - 23
-        self.player_y = 70 - 24
+        self.x = self.random_coordinate[0]
+        self.y = self.random_coordinate[1]
+        num1 = (self.HEIGHT - 50) // 32
+        num2 = (self.WIDTH // 30)
+        self.player_x = (self.y * num2 + (0.5 * num2)) - 23
+        self.player_y = (self.x * num1 + (0.5 * num1)) - 24
         self.direction = 0
-        self.x, self.y = 2, 2
         self.counter = 0
         self.flicker = False
         # R, L, U, D
@@ -65,11 +72,11 @@ class PacmanGame:
         num1 = (self.HEIGHT - 50) // 32
         num2 = self.WIDTH // 30
         if 0 < self.player_x < 870:
-            if self.level[self.center_y // num1][self.center_x // num2] == 1:
-                self.level[self.center_y // num1][self.center_x // num2] = 0
+            if self.level[int(self.center_y // num1)][int(self.center_x // num2)] == 1:
+                self.level[int(self.center_y // num1)][int(self.center_x // num2)] = 0
                 scor += 10
-            if self.level[self.center_y // num1][self.center_x // num2] == 2:
-                self.level[self.center_y // num1][self.center_x // num2] = 0
+            if self.level[int(self.center_y // num1)][int(self.center_x // num2)] == 2:
+                self.level[int(self.center_y // num1)][int(self.center_x // num2)] = 0
                 scor += 50
                 power = True
                 power_count = 0
@@ -130,40 +137,40 @@ class PacmanGame:
 
         if centerx // 30 < 29:
             if self.direction == 0:
-                if self.level[centery // num1][(centerx - num3) // num2] < 3:
+                if self.level[int(centery // num1)][int((centerx - num3) // num2)] < 3:
                     turns[1] = True
-            if self.direction == 1:
-                if self.level[centery // num1][(centerx + num3) // num2] < 3:
+            elif self.direction == 1:
+                if self.level[int(centery // num1)][int((centerx + num3) // num2)] < 3:
                     turns[0] = True
-            if self.direction == 2:
-                if self.level[(centery + num3) // num1][centerx // num2] < 3:
+            elif self.direction == 2:
+                if self.level[int((centery + num3) // num1)][int(centerx // num2)] < 3:
                     turns[3] = True
-            if self.direction == 3:
-                if self.level[(centery - num3) // num1][centerx // num2] < 3:
+            elif self.direction == 3:
+                if self.level[int((centery - num3) // num1)][int(centerx // num2)] < 3:
                     turns[2] = True
 
             if self.direction == 2 or self.direction == 3:
                 if 12 <= centerx % num2 <= 18:
-                    if self.level[(centery + num3) // num1][centerx // num2] < 3:
+                    if self.level[int((centery + num3) // num1)][int(centerx // num2)] < 3:
                         turns[3] = True
-                    if self.level[(centery - num3) // num1][centerx // num2] < 3:
+                    if self.level[int((centery - num3) // num1)][int(centerx // num2)] < 3:
                         turns[2] = True
                 if 12 <= centery % num1 <= 18:
-                    if self.level[centery // num1][(centerx - num2) // num2] < 3:
+                    if self.level[int(centery // num1)][int((centerx - num2) // num2)] < 3:
                         turns[1] = True
-                    if self.level[centery // num1][(centerx + num2) // num2] < 3:
+                    if self.level[int(centery // num1)][int((centerx + num2) // num2)] < 3:
                         turns[0] = True
 
             if self.direction == 0 or self.direction == 1:
                 if 12 <= centerx % num2 <= 18:
-                    if self.level[(centery + num1) // num1][centerx // num2] < 3:
+                    if self.level[int((centery + num1) // num1)][int(centerx // num2)] < 3:
                         turns[3] = True
-                    if self.level[(centery - num1) // num1][centerx // num2] < 3:
+                    if self.level[int((centery - num1) // num1)][int(centerx // num2)] < 3:
                         turns[2] = True
                 if 12 <= centery % num1 <= 18:
-                    if self.level[centery // num1][(centerx - num3) // num2] < 3:
+                    if self.level[int(centery // num1)][int((centerx - num3) // num2)] < 3:
                         turns[1] = True
-                    if self.level[centery // num1][(centerx + num3) // num2] < 3:
+                    if self.level[int(centery // num1)][int((centerx + num3) // num2)] < 3:
                         turns[0] = True
         else:
             turns[0] = True
@@ -184,17 +191,11 @@ class PacmanGame:
         return play_x, play_y
 
     bfs = BFS.BFS()
-    path = bfs.optimal()
+    path = bfs.optimal(random_coordinate)
 
     def move_pacman(self, player_x, player_y, x, y):
         player_x = player_x + 23
         player_y = player_y + 24
-        # start = (x, y)
-        # goal = (30, 2)
-        #
-        # solver = AStar.AStar(start, goal)
-        # path = solver.astar()
-        # print(path)
         new_x, new_y = player_x, player_y
         if self.path:
             if self.path[0] == self.path[-1]:
@@ -217,31 +218,51 @@ class PacmanGame:
                 if new_x == self.bfs.cd_array[dx1][dy1][0] and new_y == self.bfs.cd_array[dx1][dy1][1]:
                     x, y = dx1, dy1
                     self.path.pop(0)
+
         new_x = new_x - 23
         new_y = new_y - 24
         return new_x, new_y, x, y, self.direction
 
+    def toggle_pause(self):
+        self.paused = not self.paused
+
+    def handle_events(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_p:
+                    self.toggle_pause()
+
     def run_game(self):
         run = True
         while run:
+            if not self.paused:
+                if self.counter < 19:
+                    self.counter += 1
+                    if self.counter > 3:
+                        self.flicker = False
+                else:
+                    self.counter = 0
+                    self.flicker = True
+                if self.powerup and self.power_counter < 600:
+                    self.power_counter += 1
+                elif self.powerup and self.power_counter >= 600:
+                    self.power_counter = 0
+                    self.powerup = False
+                if self.startup_counter < 180 and not self.game_over and not self.game_won:
+                    self.moving = False
+                    self.startup_counter += 1
+                else:
+                    self.moving = True
+                if self.moving:
+                    self.player_x, self.player_y, self.x, self.y, self.direction = self.move_pacman(self.player_x,
+                                                                                                    self.player_y,
+                                                                                                    self.x, self.y)
             self.timer.tick(self.fps)
-            if self.counter < 19:
-                self.counter += 1
-                if self.counter > 3:
-                    self.flicker = False
-            else:
-                self.counter = 0
-                self.flicker = True
-            if self.powerup and self.power_counter < 600:
-                self.power_counter += 1
-            elif self.powerup and self.power_counter >= 600:
-                self.power_counter = 0
-                self.powerup = False
-            if self.startup_counter < 180 and not self.game_over and not self.game_won:
-                self.moving = False
-                self.startup_counter += 1
-            else:
-                self.moving = True
+            self.handle_events()
+
 
             self.screen.fill('black')
             self.draw_board()  # Assuming draw_board is a method of your class
@@ -256,9 +277,7 @@ class PacmanGame:
             self.draw_player()  # Assuming draw_player is a method of your class
             self.draw_misc()  # Assuming draw_misc is a method of your class
 
-            self.turns_allowed = self.check_position(self.center_x, self.center_y)  # Assuming check_position is a method of your class
-            if self.moving:
-                self.player_x, self.player_y, self.x, self.y, self.direction = self.move_pacman(self.player_x, self.player_y, self.x, self.y)
+            self.turns_allowed = self.check_position(self.center_x, self.center_y)
 
             self.score, self.powerup, self.power_counter = self.check_collisions(self.score, self.powerup, self.power_counter)
 

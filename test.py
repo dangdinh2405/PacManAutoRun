@@ -1,82 +1,61 @@
-import copy
 from collections import deque
-
-import AStar
 import convert
 
+def bfs(matrix, start_row, start_col, visited, visited_coordinates):
+    rows, cols = len(matrix), len(matrix[0])
+    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+    queue = deque([(start_row, start_col)])
+    visited[start_row][start_col] = True
+    found_coordinates = []
 
-class PathFinder:
-    converter = convert.MatrixConverter()
-    grid = converter.convertCoordinates()
-    cd_array = copy.deepcopy(grid)
-    matrix = converter.convertOneZero()
+    while queue:
+        current_row, current_col = queue.popleft()
 
-    def __init__(self):
+        if matrix[current_row][current_col] == 0:
+            found_coordinates.append((current_row, current_col))
+            visited[current_row][current_col] = True
 
-        self.directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+        for direction in directions:
+            new_row, new_col = current_row + direction[0], current_col + direction[1]
 
-    def bfs(self, matrix, start):
-        rows, cols = len(matrix), len(matrix[0])
+            if 0 <= new_row < rows and 0 <= new_col < cols and not visited[new_row][new_col]:
+                queue.append((new_row, new_col))
+                visited[new_row][new_col] = True
 
-        queue = deque([start])
-        visited = set([start])
-        path = []
+    for coord in found_coordinates:
+        visited_coordinates.add(coord)
 
-        while queue:
-            current_row, current_col = queue.popleft()
-            path.append((current_row, current_col))
+    return found_coordinates
 
-            for dr, dc in self.directions:
-                new_row, new_col = current_row + dr, current_col + dc
+def search_matrix(matrix, start_row, start_col, visited_coordinates):
+    rows, cols = len(matrix), len(matrix[0])
+    visited = [[False] * cols for _ in range(rows)]
+    found = False
 
-                if 0 <= new_row < rows and 0 <= new_col < cols and matrix[new_row][new_col] == 0 and (
-                new_row, new_col) not in visited:
-                    queue.append((new_row, new_col))
-                    visited.add((new_row, new_col))
-                    matrix[new_row][new_col] = 2  # Đánh dấu điểm đã được thăm
+    while True:
+        found_coordinates = bfs(matrix, start_row, start_col, visited, visited_coordinates)
 
-        return path
+        if not found_coordinates:
+            break
 
-    def find_paths(self, matrix):
-        rows, cols = len(matrix), len(matrix[0])
-        paths = []
+        for coord in found_coordinates:
+            print(coord)
 
-        for i in range(rows):
-            for j in range(cols):
-                if matrix[i][j] == 0:
-                    path = self.bfs(matrix, (i, j))
-                    paths.append(path)
+        remaining_coordinates = set(found_coordinates) - visited_coordinates
 
-        return paths
+        if remaining_coordinates:
+            start_row, start_col = remaining_coordinates.pop()
+            found = True
+        else:
+            break
 
-    def process_matrix(self):
-        matrix = self.converter.convertOneZero()
-        paths = self.find_paths(matrix)
+    return found
 
-        # Flatten the list of paths to a one-dimensional list
-        flattened_path = [point for path in paths for point in path]
+converter = convert.MatrixConverter()
+matrix = converter.convertOneZero()
 
-        return flattened_path
+visited_coordinates = set()
+start_row, start_col = 2, 2
 
-    def optimal(self):
-        bfs = PathFinder()
-        path = bfs.process_matrix()
-        i = 0
-        long = len(path)
-        while i < long - 1:
-            if not (abs(path[i][0] - path[i + 1][0]) + abs(path[i][1] - path[i + 1][1]) == 1):
-                solver = AStar.AStar(path[i], path[i + 1])
-                path1 = solver.astar()
-                path1.pop(0)  # xóa phần tử đầu tiên
-                path1.pop(-1)  # xóa phần tử cuối cùng
-                path = path[:i + 1] + path1 + path[i + 1:]
-                i = i - 1
-                long = len(path)
-            i = i + 1
-        return path
-
-
-
-path_finder = PathFinder()
-result_path = path_finder.optimal()
-print(result_path)
+while search_matrix(matrix, start_row, start_col, visited_coordinates):
+    pass

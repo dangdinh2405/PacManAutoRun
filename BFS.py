@@ -33,9 +33,9 @@ class BFS:
                 queue.extend(neighbor for neighbor in self.get_neighbors(vertex) if neighbor not in self.visited)
         return self.path
 
-    def optimal(self):
+    def optimal(self,location):
         bfs = BFS()
-        path = bfs.bfs((2, 2))
+        path = bfs.bfs(location)
         i = 0
         long = len(path)
         while i < long - 1:
