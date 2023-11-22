@@ -16,6 +16,7 @@ class AStar:
         self.start = start
         self.goal = goal
         self.neighbors = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+        self.steps = 0
 
     def heuristic(self, a, b):
         return abs(b[0] - a[0]) + abs(b[1] - a[1])
@@ -38,7 +39,7 @@ class AStar:
                     data.append(current)
                     current = came_from[current]
                 data.reverse()  # Reverse the path before returning
-                return data
+                return data, self.steps
 
             close_set.add(current)
             for i, j in self.neighbors:
@@ -63,7 +64,7 @@ class AStar:
                     g_score[neighbor] = tentative_g_score
                     f_score[neighbor] = tentative_g_score + self.heuristic(neighbor, self.goal)
                     heapq.heappush(o_heap, (f_score[neighbor], neighbor))
-
+                    self.steps += 1
 
         return False
 

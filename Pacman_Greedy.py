@@ -53,7 +53,9 @@ class PacmanGame:
 
     def draw_misc(self):
         score_text = self.font.render(f'Score: {self.score}', True, 'white')
+        sleps_text = self.font.render(f'Slep: {self.sleps}', True, 'white')
         self.screen.blit(score_text, (10, 920))
+        self.screen.blit(sleps_text, (200, 920))
         if self.powerup:
             pygame.draw.circle(self.screen, 'blue', (140, 930), 15)
         for i in range(self.lives):

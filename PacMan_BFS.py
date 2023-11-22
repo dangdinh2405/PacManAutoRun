@@ -52,7 +52,9 @@ class PacmanGame:
 
     def draw_misc(self):
         score_text = self.font.render(f'Score: {self.score}', True, 'white')
+        sleps_text = self.font.render(f'Slep: {self.sleps}', True, 'white')
         self.screen.blit(score_text, (10, 920))
+        self.screen.blit(sleps_text, (200, 920))
         if self.powerup:
             pygame.draw.circle(self.screen, 'blue', (140, 930), 15)
         for i in range(self.lives):
@@ -191,7 +193,7 @@ class PacmanGame:
         return play_x, play_y
 
     bfs = BFS.BFS()
-    path = bfs.optimal(random_coordinate)
+    path, sleps = bfs.optimal(random_coordinate)
 
     def move_pacman(self, player_x, player_y, x, y):
         player_x = player_x + 23

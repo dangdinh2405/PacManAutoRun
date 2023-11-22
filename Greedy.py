@@ -47,23 +47,23 @@ class Greedy:
 
     def optimal(self, location):
         greedy = Greedy()
-        path, steps = greedy.greedy(location)
+        path, total_steps = greedy.greedy(location)
         i = 0
         long = len(path)
         while i < long - 1:
             if not (abs(path[i][0] - path[i + 1][0]) + abs(path[i][1] - path[i + 1][1]) == 1):
                 solver = AStar.AStar(path[i], path[i + 1])
-                path1 = solver.astar()
-
+                path1, steps = solver.astar()
                 path1.pop(0)
                 path1.pop(-1)
                 path = path[:i + 1] + path1 + path[i + 1:]
                 i = i - 1
                 long = len(path)
             i = i + 1
-        return path, steps
+        return path, total_steps + steps
 
-# Sử dụng ví dụ:
+
+# # Sử dụng ví dụ:
 # greedy = Greedy()
-# path = greedy.optimal()
+# path = greedy.optimal((2,2))
 # print(path)

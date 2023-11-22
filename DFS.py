@@ -12,6 +12,7 @@ class DFS:
     def __init__(self):
         self.visited = set()
         self.path = []
+        self.steps = 0
 
     def get_neighbors(self, position):
         neighbors = [(0, 1), (0, -1), (1, 0), (-1, 0)]
@@ -30,24 +31,25 @@ class DFS:
                 self.path.append(vertex)
                 self.visited.add(vertex)
                 stack.extend(neighbor for neighbor in self.get_neighbors(vertex) if neighbor not in self.visited)
-        return self.path
+                self.steps += 1
+        return self.path, self.steps
 
     def optimal(self, location):
         dfs = DFS()
-        path = dfs.dfs(location)
+        path, total_steps = dfs.dfs(location)
         i = 0
         long = len(path)
         while i < long - 1:
             if not (abs(path[i][0] - path[i + 1][0]) + abs(path[i][1] - path[i + 1][1]) == 1):
                 solver = AStar.AStar(path[i], path[i + 1])
-                path1 = solver.astar()
+                path1, steps = solver.astar()
                 path1.pop(0)  # xóa phần tử đầu tiên
                 path1.pop(-1)  # xóa phần tử cuối cùng
                 path = path[:i + 1] + path1 + path[i + 1:]
                 i = 0
                 long = len(path)
             i = i + 1
-        return path
+        return path, total_steps + steps
 
 
 # # Usage:
