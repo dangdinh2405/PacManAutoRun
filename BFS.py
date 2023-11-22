@@ -42,8 +42,8 @@ class BFS:
             if not (abs(path[i][0] - path[i + 1][0]) + abs(path[i][1] - path[i + 1][1]) == 1):
                 solver = AStar.AStar(path[i], path[i + 1])
                 path1 = solver.astar()
-                path1.pop(0)  # xóa phần tử đầu tiên
-                path1.pop(-1)  # xóa phần tử cuối cùng
+                path1.pop(0)
+                path1.pop(-1)
                 path = path[:i + 1] + path1 + path[i + 1:]
                 i = i - 1
                 long = len(path)
@@ -51,6 +51,6 @@ class BFS:
         return path
 
 
-bfs = BFS()
-path = bfs.optimal()
-print(path)
+# bfs = BFS()
+# path = bfs.optimal()
+# print(path)
