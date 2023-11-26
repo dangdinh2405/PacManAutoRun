@@ -1,9 +1,11 @@
 import copy
+
 from matrix import matrix
 import pygame
 import math
 import DFS
 import Random
+import Alogrithm_clone
 
 
 class PacmanGame:
@@ -54,13 +56,16 @@ class PacmanGame:
 
     def draw_misc(self):
         score_text = self.font.render(f'Score: {self.score}', True, 'white')
-        sleps_text = self.font.render(f'Slep: {self.sleps}', True, 'white')
+        steps_text = self.font.render(f'Step: {self.sleps}', True, 'white')
+        noti_text = self.font.render('Push "P" to Pause', True, 'yellow')
+        quit_text = self.font.render('Push "Q" to Quit', True, 'red')
         self.screen.blit(score_text, (10, 920))
-        self.screen.blit(sleps_text, (200, 920))
+        self.screen.blit(steps_text, (200, 920))
+        self.screen.blit(noti_text, (500, 920))
+        self.screen.blit(quit_text, (700, 920))
         if self.powerup:
             pygame.draw.circle(self.screen, 'blue', (140, 930), 15)
-        for i in range(self.lives):
-            self.screen.blit(pygame.transform.scale(self.player_images[0], (30, 30)), (650 + i * 40, 915))
+
         if self.game_over:
             pygame.draw.rect(self.screen, 'white', [50, 200, 800, 300], 0, 10)
             pygame.draw.rect(self.screen, 'dark gray', [70, 220, 760, 260], 0, 10)
@@ -237,6 +242,10 @@ class PacmanGame:
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p:
                     self.toggle_pause()
+                elif event.key == pygame.K_q:
+                    pygame.quit()
+                    menu = Alogrithm_clone.AlgorithmClone()
+                    menu.run_menu_algorithm_clone()
 
     def run_game(self):
         run = True
