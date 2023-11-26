@@ -7,9 +7,6 @@ import Random
 import Alogrithm_clone
 
 class PacmanGame:
-    matrix_handler = Random.MatrixHandler()
-    random_coordinate = matrix_handler.random_zero_coordinate()
-
     def __init__(self):
         pygame.init()
         self.paused = False
@@ -27,6 +24,10 @@ class PacmanGame:
             self.player_images.append(pygame.transform.scale(pygame.image.load(f'pacman_image/{i}.png'), (45, 45)))
         self.icon = pygame.image.load("pacman_image/1.png")
         pygame.display.set_icon(self.icon)
+
+        matrix_handler = Random.MatrixHandler()
+        self.random_coordinate = matrix_handler.random_zero_coordinate()
+
         self.x = self.random_coordinate[0]
         self.y = self.random_coordinate[1]
         num1 = (self.HEIGHT - 50) // 32
@@ -51,9 +52,12 @@ class PacmanGame:
         self.game_over = False
         self.game_won = False
 
+        self.greedy = Greedy.Greedy()
+        self.path, self.steps = self.greedy.optimal(self.random_coordinate)
+
     def draw_misc(self):
         score_text = self.font.render(f'Score: {self.score}', True, 'white')
-        steps_text = self.font.render(f'Step: {self.sleps}', True, 'white')
+        steps_text = self.font.render(f'Step: {self.steps}', True, 'white')
         noti_text = self.font.render('Push "P" to Pause', True, 'yellow')
         quit_text = self.font.render('Push "Q" to Quit', True, 'red')
         self.screen.blit(score_text, (10, 920))
@@ -195,9 +199,6 @@ class PacmanGame:
         elif self.direction == 3 and self.turns_allowed[3]:
             play_y += self.player_speed
         return play_x, play_y
-
-    greedy = Greedy.Greedy()
-    path, sleps = greedy.optimal(random_coordinate)
 
     def move_pacman(self, player_x, player_y, x, y):
         player_x = player_x + 23

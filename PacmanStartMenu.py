@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Nov 22 10:22:58 2023
-
-@author: tranv
-"""
-
 import pygame
 from PacmanInfoWindow import *
 from Alogrithm import *

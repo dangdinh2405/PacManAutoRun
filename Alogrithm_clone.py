@@ -17,7 +17,7 @@ class AlgorithmClone:
         icon = pygame.image.load('Graphics/Icon_Snake.png')
         pygame.display.set_icon(icon)
 
-        pygame.display.set_caption("Pacman Game")
+        pygame.display.set_caption("Trò chơi Pacman")
 
         # CỬA SỔ START
         self.root = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
@@ -57,14 +57,20 @@ class AlgorithmClone:
                     if self.bfs_button.collidepoint(mouse_pos):
                         pacman_game = PacMan_BFS.PacmanGame()
                         pacman_game.run_game()
+                        pygame.quit()
+                        quit()
                     elif self.dfs_button.collidepoint(mouse_pos):
                         pacman_game = PacMan_DFS.PacmanGame()
                         pacman_game.run_game()
+                        pygame.quit()
+                        quit()
                     elif self.greedy_button.collidepoint(mouse_pos):
                         pacman_game = PacMan_Greedy.PacmanGame()
                         pacman_game.run_game()
+                        pygame.quit()
+                        quit()
                     elif self.back_button.collidepoint(mouse_pos):
-                        background = pygame.image.load('path/to/your/back_image.png')
+                        background = pygame.image.load('Graphics/MainLayout.png')
                         background = pygame.transform.scale(background, (self.WIDTH, self.HEIGHT))
                         self.root.blit(background, (0, 0))
                         pygame.display.flip()
@@ -100,7 +106,7 @@ class AlgorithmClone:
             bfs_text = self.font.render("BFS", True, "#FFD800")
             dfs_text = self.font.render("DFS", True, "#FFD800")
             greedy_text = self.font.render("Greedy", True, "#FFD800")
-            back_text = self.font.render("Back", True, "#FFD800")
+            back_text = self.font.render("Quay lại", True, "#FFD800")
 
             bfs_text_rect = bfs_text.get_rect(center=self.bfs_button.center)
             dfs_text_rect = dfs_text.get_rect(center=self.dfs_button.center)
@@ -116,5 +122,7 @@ class AlgorithmClone:
         pygame.quit()
 
 if __name__ == "__main__":
+    pygame.init()  # Khởi tạo Pygame chỉ một lần ở đầu chương trình của bạn
     algorithm_clone = AlgorithmClone()
     algorithm_clone.run_menu_algorithm_clone()
+    pygame.quit()  # Đảm bảo thoát Pygame khi trò chơi kết thúc

@@ -8,9 +8,6 @@ import Alogrithm_clone
 
 
 class PacmanGame:
-    matrix_handler = Random.MatrixHandler()
-    random_coordinate = matrix_handler.random_zero_coordinate()
-
     def __init__(self):
         pygame.init()
         self.paused = False
@@ -28,6 +25,9 @@ class PacmanGame:
             self.player_images.append(pygame.transform.scale(pygame.image.load(f'pacman_image/{i}.png'), (45, 45)))
         self.icon = pygame.image.load("pacman_image/1.png")
         pygame.display.set_icon(self.icon)
+        matrix_handler = Random.MatrixHandler()
+        self.random_coordinate = matrix_handler.random_zero_coordinate()
+
         self.x = self.random_coordinate[0]
         self.y = self.random_coordinate[1]
         num1 = (self.HEIGHT - 50) // 32
@@ -51,6 +51,9 @@ class PacmanGame:
         self.lives = 3
         self.game_over = False
         self.game_won = False
+
+        self.bfs = BFS.BFS()
+        self.path, self.steps = self.bfs.optimal(self.random_coordinate)
 
 
     def draw_misc(self):
@@ -198,8 +201,6 @@ class PacmanGame:
             play_y += self.player_speed
         return play_x, play_y
 
-    bfs = BFS.BFS()
-    path, steps = bfs.optimal(random_coordinate)
 
     def move_pacman(self, player_x, player_y, x, y):
         player_x = player_x + 23
@@ -243,9 +244,10 @@ class PacmanGame:
                 if event.key == pygame.K_p:
                     self.toggle_pause()
                 elif event.key == pygame.K_q:
-                    pygame.quit()
-                    menu = Alogrithm_clone.AlgorithmClone
+                    menu = Alogrithm_clone.AlgorithmClone()
                     menu.run_menu_algorithm_clone()
+                    pygame.quit()
+                    quit()
 
     def run_game(self):
         run = True
