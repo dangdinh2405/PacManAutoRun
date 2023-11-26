@@ -29,7 +29,7 @@ class PacmanInfoWindow:
         self.root.blit(background, (0, 0))
         
          # Tạo nút "Back"
-        self.back_button = pygame.Rect(310, 560, 250, 50)
+        self.back_button = pygame.Rect(310, 860, 250, 50)
         self.back_button_color = pygame.Color("#000000")
         self.back_hover_color = pygame.Color("#333333")
 

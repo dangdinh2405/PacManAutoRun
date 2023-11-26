@@ -245,9 +245,10 @@ class PacmanGame:
                 if event.key == pygame.K_p:
                     self.toggle_pause()
                 elif event.key == pygame.K_q:
-                    pygame.quit()
                     menu = Alogrithm_clone.AlgorithmClone()
                     menu.run_menu_algorithm_clone()
+                    pygame.quit()
+                    quit()
 
     def run_game(self):
         run = True

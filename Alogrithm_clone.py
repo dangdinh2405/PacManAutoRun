@@ -2,6 +2,7 @@ import pygame
 import PacMan_BFS
 import PacMan_DFS
 import PacMan_Greedy
+import ChooseMode
 
 class AlgorithmClone:
     def __init__(self):
@@ -70,11 +71,10 @@ class AlgorithmClone:
                         pygame.quit()
                         quit()
                     elif self.back_button.collidepoint(mouse_pos):
-                        background = pygame.image.load('Graphics/MainLayout.png')
-                        background = pygame.transform.scale(background, (self.WIDTH, self.HEIGHT))
-                        self.root.blit(background, (0, 0))
-                        pygame.display.flip()
-                        return
+                        background = ChooseMode.ChooseMode()
+                        background.run_menu()
+                        pygame.quit()
+                        quit()
 
             mouse_pos = pygame.mouse.get_pos()
 
@@ -106,7 +106,7 @@ class AlgorithmClone:
             bfs_text = self.font.render("BFS", True, "#FFD800")
             dfs_text = self.font.render("DFS", True, "#FFD800")
             greedy_text = self.font.render("Greedy", True, "#FFD800")
-            back_text = self.font.render("Quay lại", True, "#FFD800")
+            back_text = self.font.render("Back", True, "#FFD800")
 
             bfs_text_rect = bfs_text.get_rect(center=self.bfs_button.center)
             dfs_text_rect = dfs_text.get_rect(center=self.dfs_button.center)

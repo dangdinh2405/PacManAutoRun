@@ -1,7 +1,7 @@
 import pygame
 from PacmanInfoWindow import *
 from Alogrithm import *
-from ChooseMode import *
+import ChooseMode
 import sys
 
 class PacmanStartMenu:
@@ -50,10 +50,11 @@ class PacmanStartMenu:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     mouse_pos = event.pos
                     if self.start_button.collidepoint(mouse_pos):
-                        mode = ChooseMode()
+                        mode = ChooseMode.ChooseMode()
                         mode.run_menu()
+                        pygame.quit()
+                        quit()
                     elif self.info_button.collidepoint(mouse_pos):
-                        # Xử lý sự kiện khi nút "Info" được nhấn
                         info_window = PacmanInfoWindow()
                         info_window.run()
 

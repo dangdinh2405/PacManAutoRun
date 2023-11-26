@@ -233,7 +233,7 @@ class PacmanGame:
     def toggle_pause(self):
         self.paused = not self.paused
 
-    """def handle_events(self):
+    def handle_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -242,9 +242,10 @@ class PacmanGame:
                 if event.key == pygame.K_p:
                     self.toggle_pause()
                 elif event.key == pygame.K_q:
+                    menu = Alogrithm_clone.AlgorithmClone()
+                    menu.run_menu_algorithm_clone()
                     pygame.quit()
-                    menu = Alogrithm_clone.Alogrithm_clone()
-                    menu.run_menu_alogrithm_clone()"""
+                    quit()
     def run_game(self):
         run = True
         while run:
@@ -273,6 +274,7 @@ class PacmanGame:
                                                                                                     self.x, self.y)
 
             self.timer.tick(self.fps)
+            self.handle_events()
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:

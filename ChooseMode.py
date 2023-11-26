@@ -1,13 +1,8 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Nov 22 10:05:45 2023
-
-@author: tranv
-"""
-
 import pygame
-from Alogrithm import *
+import Alogrithm_clone
 import sys
+import PacmanStartMenu
+import PacMan_None
 
 class ChooseMode:
     def __init__(self):
@@ -64,21 +59,20 @@ class ChooseMode:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     mouse_pos = event.pos
                     if self.classic_button.collidepoint(mouse_pos):
-                        pass
+                        pacman_game = PacMan_None.PacmanGame()
+                        pacman_game.run()
+                        pygame.quit()
+                        quit()
                     elif self.ai_play_button.collidepoint(mouse_pos):
-                        menu = Alogrithm()
-                        menu.run_menu_alogrithm()
+                        menu = Alogrithm_clone.AlgorithmClone()
+                        menu.run_menu_algorithm_clone()
+                        pygame.quit()
+                        quit()
                     elif self.back_button.collidepoint(mouse_pos):
-                        background = pygame.image.load(
-                            'Graphics/Layout.png')
-                        background = pygame.transform.scale(background, (self.WIDTH, self.HEIGHT))
-                        self.root.blit(background, (0, 0))
-                    
-                        # You may need to redraw other elements on the screen as well
-                    
-                        # Update the display
-                        pygame.display.flip()
-                        return
+                        background = PacmanStartMenu.PacmanStartMenu()
+                        background.run_start_menu()
+                        pygame.quit()
+                        quit()
 
             # Lấy tọa độ chuột
             mouse_pos = pygame.mouse.get_pos()
