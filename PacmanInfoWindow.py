@@ -74,10 +74,8 @@ class PacmanInfoWindow:
         
             back_text = self.font.render("Back", True, "#FFD800")
 
-           
             back_text_rect = back_text.get_rect(center=self.back_button.center)
 
-           
             self.root.blit(back_text, back_text_rect)
 
             pygame.display.flip()

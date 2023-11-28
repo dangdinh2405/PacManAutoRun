@@ -2,7 +2,7 @@ import pygame
 import Alogrithm_clone
 import sys
 import PacmanStartMenu
-import PacMan_None
+import PacMan_Classic
 
 class ChooseMode:
     def __init__(self):
@@ -59,8 +59,8 @@ class ChooseMode:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     mouse_pos = event.pos
                     if self.classic_button.collidepoint(mouse_pos):
-                        pacman_game = PacMan_None.PacmanGame()
-                        pacman_game.run()
+                        pacman_game = PacMan_Classic.PacmanGame()
+                        pacman_game.run_game()
                         pygame.quit()
                         quit()
                     elif self.ai_play_button.collidepoint(mouse_pos):

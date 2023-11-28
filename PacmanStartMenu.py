@@ -1,6 +1,4 @@
-import pygame
 from PacmanInfoWindow import *
-from Alogrithm import *
 import ChooseMode
 import sys
 

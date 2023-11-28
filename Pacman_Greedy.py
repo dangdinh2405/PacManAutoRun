@@ -190,18 +190,6 @@ class PacmanGame:
 
         return turns
 
-    def move_player(self, play_x, play_y):
-        # r, l, u, d
-        if self.direction == 0 and self.turns_allowed[0]:
-            play_x += self.player_speed
-        elif self.direction == 1 and self.turns_allowed[1]:
-            play_x -= self.player_speed
-        if self.direction == 2 and self.turns_allowed[2]:
-            play_y -= self.player_speed
-        elif self.direction == 3 and self.turns_allowed[3]:
-            play_y += self.player_speed
-        return play_x, play_y
-
     def move_pacman(self, player_x, player_y, x, y):
         player_x = player_x + 23
         player_y = player_y + 24
