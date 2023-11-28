@@ -63,9 +63,11 @@ class PacmanGame:
         score_text = self.font.render(f'Score: {self.score}', True, 'white')
         steps_text = self.font.render(f'Step: {self.steps}', True, 'white')
         noti_text = self.font.render('Push "P" to Pause', True, 'yellow')
+        DFS_text = self.font.render('[DFS]', True, 'green')
         quit_text = self.font.render('Push "Q" to Quit', True, 'red')
         self.screen.blit(score_text, (10, 920))
         self.screen.blit(steps_text, (200, 920))
+        self.screen.blit(DFS_text, (400, 920))
         self.screen.blit(noti_text, (500, 920))
         self.screen.blit(quit_text, (700, 920))
         if self.powerup:
@@ -79,7 +81,7 @@ class PacmanGame:
         if self.game_won:
             pygame.draw.rect(self.screen, 'white', [50, 200, 800, 300], 0, 10)
             pygame.draw.rect(self.screen, 'dark gray', [70, 220, 760, 260], 0, 10)
-            gameover_text = self.font.render('Victory! Space bar to restart!', True, 'green')
+            gameover_text = self.font.render('Victory! Space bar to restart!', True, 'blue')
             self.screen.blit(gameover_text, (100, 300))
 
     def check_collisions(self, scor, power, power_count):

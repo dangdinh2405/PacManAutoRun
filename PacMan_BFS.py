@@ -59,10 +59,12 @@ class PacmanGame:
     def draw_misc(self):
         score_text = self.font.render(f'Score: {self.score}', True, 'white')
         steps_text = self.font.render(f'Step: {self.steps}', True, 'white')
+        BFS_text = self.font.render('[BFS]', True, 'green')
         noti_text = self.font.render('Push "P" to Pause', True, 'yellow')
         quit_text = self.font.render('Push "Q" to Quit', True, 'red')
         self.screen.blit(score_text, (10, 920))
         self.screen.blit(steps_text, (200, 920))
+        self.screen.blit(BFS_text, (400, 920))
         self.screen.blit(noti_text, (500, 920))
         self.screen.blit(quit_text, (700, 920))
         if self.powerup:
