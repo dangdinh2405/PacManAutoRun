@@ -3,6 +3,7 @@ import Alogrithm_clone
 import sys
 import PacmanStartMenu
 import PacMan_Classic
+import time
 
 class ChooseMode:
     def __init__(self):
@@ -10,6 +11,9 @@ class ChooseMode:
         self.HEIGHT = 950
 
         pygame.init()
+        pygame.mixer.init()
+        pygame.mixer.music.load("audio/play_main.mp3")
+        pygame.mixer.music.play()
         self.screen = pygame.display.set_mode([self.WIDTH, self.HEIGHT])
         self.timer = pygame.time.Clock()
         self.fps = 60
@@ -59,16 +63,23 @@ class ChooseMode:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     mouse_pos = event.pos
                     if self.classic_button.collidepoint(mouse_pos):
+                        pygame.mixer.music.pause()
+                        time.sleep(1)
                         pacman_game = PacMan_Classic.PacmanGame()
+                        pygame.mixer.init()
+                        pygame.mixer.music.load("audio/game_start.mp3")
+                        pygame.mixer.music.play()
                         pacman_game.run_game()
                         pygame.quit()
                         quit()
                     elif self.ai_play_button.collidepoint(mouse_pos):
+                        pygame.mixer.music.pause()
                         menu = Alogrithm_clone.AlgorithmClone()
                         menu.run_menu_algorithm_clone()
                         pygame.quit()
                         quit()
                     elif self.back_button.collidepoint(mouse_pos):
+                        pygame.mixer.music.pause()
                         background = PacmanStartMenu.PacmanStartMenu()
                         background.run_start_menu()
                         pygame.quit()

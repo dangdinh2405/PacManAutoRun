@@ -897,6 +897,9 @@ class PacmanGame:
         self.paused = not self.paused
 
     def run_game(self):
+        pygame.mixer.init()
+        pygame.mixer.music.load("audio/playing_pacman.mp3")
+        pygame.mixer.music.play()
         global inky, pinky, blinky, clyde
         run = True
         while run:
@@ -1249,3 +1252,4 @@ class PacmanGame:
 if __name__ == "__main__":
     pacman_game = PacmanGame()
     pacman_game.run_game()
+    

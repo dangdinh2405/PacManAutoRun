@@ -237,6 +237,9 @@ class PacmanGame:
                     pygame.quit()
                     quit()
     def run_game(self):
+        pygame.mixer.init()
+        pygame.mixer.music.load("audio/playing_pacman.mp3")
+        pygame.mixer.music.play()
         run = True
         while run:
             if not self.paused:

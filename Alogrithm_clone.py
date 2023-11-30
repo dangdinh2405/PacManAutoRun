@@ -3,11 +3,15 @@ import PacMan_BFS
 import PacMan_DFS
 import PacMan_Greedy
 import ChooseMode
+import time
 
 class AlgorithmClone:
     def __init__(self):
         self.WIDTH = 950
         self.HEIGHT = 900
+        pygame.mixer.init()
+        pygame.mixer.music.load("audio/play_main.mp3")
+        pygame.mixer.music.play()
 
         pygame.init()
         self.screen = pygame.display.set_mode([self.WIDTH, self.HEIGHT])
@@ -56,17 +60,31 @@ class AlgorithmClone:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     mouse_pos = event.pos
                     if self.bfs_button.collidepoint(mouse_pos):
+                        pygame.mixer.music.pause()
+                        time.sleep(1)
                         pacman_game = PacMan_BFS.PacmanGame()
+                        pygame.mixer.init()
+                        pygame.mixer.music.load("audio/game_start.mp3")
+                        pygame.mixer.music.play()
                         pacman_game.run_game()
                         pygame.quit()
                         quit()
                     elif self.dfs_button.collidepoint(mouse_pos):
+                        pygame.mixer.music.pause()
+                        time.sleep(1)
                         pacman_game = PacMan_DFS.PacmanGame()
+                        pygame.mixer.init()
+                        pygame.mixer.music.load("audio/game_start.mp3")
+                        pygame.mixer.music.play()
                         pacman_game.run_game()
                         pygame.quit()
                         quit()
                     elif self.greedy_button.collidepoint(mouse_pos):
+                        pygame.mixer.music.pause()
+                        time.sleep(1)
                         pacman_game = PacMan_Greedy.PacmanGame()
+                        pygame.mixer.music.load("audio/game_start.mp3")
+                        pygame.mixer.music.play()
                         pacman_game.run_game()
                         pygame.quit()
                         quit()

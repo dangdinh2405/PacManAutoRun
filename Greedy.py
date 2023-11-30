@@ -43,7 +43,7 @@ class Greedy:
                     if self.matrix[neighbor[0]][neighbor[1]] == 0 and neighbor not in self.visited:
                         priority_queue.append((self.heuristic(neighbor, None), neighbor))
 
-        return self.path,self.steps
+        return self.path, self.steps
 
     def optimal(self, location):
         greedy = Greedy()

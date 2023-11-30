@@ -1,9 +1,14 @@
 from PacmanInfoWindow import *
 import ChooseMode
 import sys
+import pygame
+
 
 class PacmanStartMenu:
     def __init__(self):
+        pygame.mixer.init()
+        pygame.mixer.music.load("audio/play_main.mp3")
+        pygame.mixer.music.play()
         pygame.init()
         self.WIDTH = 900
         self.HEIGHT = 950
@@ -55,6 +60,8 @@ class PacmanStartMenu:
                     elif self.info_button.collidepoint(mouse_pos):
                         info_window = PacmanInfoWindow()
                         info_window.run()
+                        pygame.mixer.music.pause()
+                    
 
             # Lấy tọa độ chuột
             mouse_pos = pygame.mouse.get_pos()
