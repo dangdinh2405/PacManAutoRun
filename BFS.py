@@ -54,5 +54,5 @@ class BFS:
 
 
 # bfs = BFS()
-# path = bfs.optimal()
-# print(path)
+# path = bfs.optimal((2,2))
+# print(path[0][1][0])

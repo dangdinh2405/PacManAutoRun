@@ -30,10 +30,10 @@ class PacmanGame:
 
         self.x = self.random_coordinate[0]
         self.y = self.random_coordinate[1]
-        num1 = (self.HEIGHT - 50) // 32
-        num2 = (self.WIDTH // 30)
-        self.player_x = (self.y * num2 + (0.5 * num2)) - 23
-        self.player_y = (self.x * num1 + (0.5 * num1)) - 24
+        self.num1 = (self.HEIGHT - 50) // 32
+        self.num2 = (self.WIDTH // 30)
+        self.player_x = (self.y * self.num2 + (0.5 * self.num2)) - 23
+        self.player_y = (self.x * self.num1 + (0.5 * self.num1)) - 24
         self.direction = 0
         self.counter = 0
         self.flicker = False
@@ -54,6 +54,7 @@ class PacmanGame:
 
         self.bfs = BFS.BFS()
         self.path, self.steps = self.bfs.optimal(self.random_coordinate)
+        self.point = self.bfs.bfs(self.random_coordinate)
 
 
     def draw_misc(self):
@@ -191,17 +192,17 @@ class PacmanGame:
 
         return turns
 
-    def move_player(self, play_x, play_y):
-        # r, l, u, d
-        if self.direction == 0 and self.turns_allowed[0]:
-            play_x += self.player_speed
-        elif self.direction == 1 and self.turns_allowed[1]:
-            play_x -= self.player_speed
-        if self.direction == 2 and self.turns_allowed[2]:
-            play_y -= self.player_speed
-        elif self.direction == 3 and self.turns_allowed[3]:
-            play_y += self.player_speed
-        return play_x, play_y
+    def Simulator(self):
+        for i in range(len(self.point[0])):
+            pygame.draw.circle(self.screen, 'red', (self.point[0][i][1] * self.num2 + (0.5 * self.num2), self.point[0][i][0] * self.num1 + (0.5 * self.num1)), 4)
+            pygame.display.flip()
+            pygame.time.delay(20)
+
+    def Simulator1(self):
+        for i in range(len(self.path)):
+            pygame.draw.circle(self.screen, 'red', (self.path[i][1] * self.num2 + (0.5 * self.num2), self.path[i][0] * self.num1 + (0.5 * self.num1)), 4)
+            pygame.display.flip()
+            pygame.time.delay(3)
 
 
     def move_pacman(self, player_x, player_y, x, y):
@@ -209,7 +210,7 @@ class PacmanGame:
         player_y = player_y + 24
         new_x, new_y = player_x, player_y
         if self.path:
-            if self.path[0] == self.path[-1]:
+            if len(self.path) == 1:
                 new_x, new_y = player_x, player_y
             else:
                 dx, dy = self.path[0]
@@ -255,6 +256,11 @@ class PacmanGame:
         pygame.mixer.init()
         pygame.mixer.music.load("audio/playing_pacman.mp3")
         pygame.mixer.music.play()
+        self.draw_board()
+        self.draw_player()
+        self.Simulator()
+        self.screen.fill('black')
+        pygame.display.flip()
         run = True
         while run:
             if not self.paused:

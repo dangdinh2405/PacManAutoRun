@@ -1,6 +1,7 @@
 import pygame
 import sys
 
+
 class PacmanInfoWindow:
     def __init__(self):
         self.WIDTH = 900

@@ -35,6 +35,7 @@ class MatrixConverter:
 
 
 # new = MatrixConverter()
-# matrix1 = new.convertCoordinates()
+# matrix1 = new.convertOneZero()
 #
-# print(matrix1[3][2][1])
+# for i in matrix1:
+#     print(i)

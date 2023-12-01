@@ -2,9 +2,10 @@ import copy
 from matrix import matrix
 import pygame
 import math
-import Greedy
+import AStar_Find
 import Random
 import Alogrithm_clone
+
 
 class PacmanGame:
     def __init__(self):
@@ -24,7 +25,6 @@ class PacmanGame:
             self.player_images.append(pygame.transform.scale(pygame.image.load(f'pacman_image/{i}.png'), (45, 45)))
         self.icon = pygame.image.load("pacman_image/1.png")
         pygame.display.set_icon(self.icon)
-
         matrix_handler = Random.MatrixHandler()
         self.random_coordinate = matrix_handler.random_zero_coordinate()
 
@@ -52,19 +52,20 @@ class PacmanGame:
         self.game_over = False
         self.game_won = False
 
-        self.greedy = Greedy.Greedy()
-        self.path, self.steps = self.greedy.optimal(self.random_coordinate)
-        self.point = self.greedy.greedy(self.random_coordinate)
+        self.a_star = AStar_Find.AStarFind()
+        self.path, self.steps = self.a_star.optimal(self.random_coordinate)
+        self.point = self.a_star.astar(self.random_coordinate)
+
 
     def draw_misc(self):
         score_text = self.font.render(f'Score: {self.score}', True, 'white')
         steps_text = self.font.render(f'Step: {self.steps}', True, 'white')
-        Greedy_text = self.font.render('[GREEDY]', True, 'green')
+        BFS_text = self.font.render('[AStart]', True, 'green')
         noti_text = self.font.render('Push "P" to Pause', True, 'yellow')
         quit_text = self.font.render('Push "Q" to Quit', True, 'red')
         self.screen.blit(score_text, (10, 920))
         self.screen.blit(steps_text, (200, 920))
-        self.screen.blit(Greedy_text, (400, 920))
+        self.screen.blit(BFS_text, (400, 920))
         self.screen.blit(noti_text, (500, 920))
         self.screen.blit(quit_text, (700, 920))
         if self.powerup:
@@ -197,10 +198,16 @@ class PacmanGame:
             pygame.display.flip()
             pygame.time.delay(20)
 
+    def Simulator1(self):
+        for i in range(len(self.path)):
+            pygame.draw.circle(self.screen, 'red', (self.path[i][1] * self.num2 + (0.5 * self.num2), self.path[i][0] * self.num1 + (0.5 * self.num1)), 4)
+            pygame.display.flip()
+            pygame.time.delay(3)
+
+
     def move_pacman(self, player_x, player_y, x, y):
         player_x = player_x + 23
         player_y = player_y + 24
-
         new_x, new_y = player_x, player_y
         if self.path:
             if len(self.path) == 1:
@@ -220,9 +227,10 @@ class PacmanGame:
                 elif dx1 - dx == 1 and dy1 - dy == 0:
                     new_y = player_y + 1 * self.player_speed
                     self.direction = 3
-                if new_x == self.greedy.cd_array[dx1][dy1][0] and new_y == self.greedy.cd_array[dx1][dy1][1]:
+                if new_x == self.a_star.cd_array[dx1][dy1][0] and new_y == self.a_star.cd_array[dx1][dy1][1]:
                     x, y = dx1, dy1
                     self.path.pop(0)
+
         new_x = new_x - 23
         new_y = new_y - 24
         return new_x, new_y, x, y, self.direction
@@ -243,6 +251,7 @@ class PacmanGame:
                     menu.run_menu_algorithm_clone()
                     pygame.quit()
                     quit()
+
     def run_game(self):
         pygame.mixer.init()
         pygame.mixer.music.load("audio/playing_pacman.mp3")
@@ -251,6 +260,7 @@ class PacmanGame:
         self.draw_player()
         self.Simulator()
         self.screen.fill('black')
+        pygame.display.flip()
         run = True
         while run:
             if not self.paused:
@@ -271,26 +281,12 @@ class PacmanGame:
                     self.startup_counter += 1
                 else:
                     self.moving = True
-
                 if self.moving:
                     self.player_x, self.player_y, self.x, self.y, self.direction = self.move_pacman(self.player_x,
                                                                                                     self.player_y,
                                                                                                     self.x, self.y)
-
             self.timer.tick(self.fps)
             self.handle_events()
-
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    quit()
-                elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_p:
-                        self.toggle_pause()
-                    elif event.key == pygame.K_q:
-                        pygame.quit()
-                        menu = Alogrithm_clone.AlgorithmClone()
-                        menu.run_menu_algorithm_clone()
 
 
             self.screen.fill('black')
@@ -306,8 +302,7 @@ class PacmanGame:
             self.draw_player()  # Assuming draw_player is a method of your class
             self.draw_misc()  # Assuming draw_misc is a method of your class
 
-            self.turns_allowed = self.check_position(self.center_x, self.center_y)  # Assuming check_position is a method of your class
-
+            self.turns_allowed = self.check_position(self.center_x, self.center_y)
 
             self.score, self.powerup, self.power_counter = self.check_collisions(self.score, self.powerup, self.power_counter)
 
