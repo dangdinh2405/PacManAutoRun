@@ -53,8 +53,8 @@ class PacmanGame:
         self.game_won = False
 
         self.a_star = AStar_Find.AStarFind()
-        self.path, self.steps = self.a_star.optimal(self.random_coordinate)
-        self.point = self.a_star.astar(self.random_coordinate)
+        self.path, self.steps = self.a_star.optimal((self.x, self.y))
+        self.point = self.a_star.astar((self.x, self.y))
 
 
     def draw_misc(self):

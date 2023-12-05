@@ -53,8 +53,8 @@ class PacmanGame:
         self.game_won = False
 
         self.bfs = BFS.BFS()
-        self.path, self.steps = self.bfs.optimal(self.random_coordinate)
-        self.point = self.bfs.bfs(self.random_coordinate)
+        self.path, self.steps = self.bfs.optimal((self.x, self.y))
+        self.point = self.bfs.bfs((self.x, self.y))
 
 
     def draw_misc(self):

@@ -53,8 +53,8 @@ class PacmanGame:
         self.game_won = False
 
         self.ucs = UCS.UCS()
-        self.path, self.steps = self.ucs.optimal(self.random_coordinate)
-        self.point = self.ucs.ucs(self.random_coordinate)
+        self.path, self.steps = self.ucs.optimal((self.x, self.y))
+        self.point = self.ucs.ucs((self.x, self.y))
 
 
     def draw_misc(self):

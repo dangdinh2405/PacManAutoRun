@@ -76,8 +76,8 @@ class AStarFind:
         return path, total_steps + sleps
 
 
-# Example usage:
-a_star = AStarFind()
-path, steps = a_star.optimal((2, 2))
-print(path)
-print(steps)
+# # Example usage:
+# a_star = AStarFind()
+# path, steps = a_star.optimal((2, 2))
+# print(path)
+# print(steps)

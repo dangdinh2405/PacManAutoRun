@@ -53,8 +53,8 @@ class PacmanGame:
         self.game_won = False
 
         self.greedy = Greedy.Greedy()
-        self.path, self.steps = self.greedy.optimal(self.random_coordinate)
-        self.point = self.greedy.greedy(self.random_coordinate)
+        self.path, self.steps = self.greedy.optimal((self.x, self.y))
+        self.point = self.greedy.greedy((self.x, self.y))
 
     def draw_misc(self):
         score_text = self.font.render(f'Score: {self.score}', True, 'white')

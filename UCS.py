@@ -72,9 +72,9 @@ class UCS:
             i = i + 1
         return path, total_steps + sleps
 
-# Example usage:
-ucs_algorithm = UCS()
-
-path, steps = ucs_algorithm.optimal((2, 2))
-print("UCS Path:", path)
-print("UCS Steps:", steps)
+# # Example usage:
+# ucs_algorithm = UCS()
+#
+# path, steps = ucs_algorithm.optimal((2, 2))
+# print("UCS Path:", path)
+# print("UCS Steps:", steps)

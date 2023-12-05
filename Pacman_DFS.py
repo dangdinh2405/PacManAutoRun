@@ -57,8 +57,8 @@ class PacmanGame:
         self.game_won = False
 
         self.dfs = DFS.DFS()
-        self.path, self.steps = self.dfs.optimal(self.random_coordinate)
-        self.point = self.dfs.dfs(self.random_coordinate)
+        self.path, self.steps = self.dfs.optimal((self.x, self.y))
+        self.point = self.dfs.dfs((self.x, self.y))
 
     def draw_misc(self):
         score_text = self.font.render(f'Score: {self.score}', True, 'white')
